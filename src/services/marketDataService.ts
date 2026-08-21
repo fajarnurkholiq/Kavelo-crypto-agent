@@ -39,6 +39,7 @@ export interface TopMover {
   id: string;
   symbol: string;
   name: string;
+  price: number;
   priceChange24h: number;
   isDemo: boolean;
 }
@@ -231,6 +232,7 @@ export async function getTopMovers(
         id: coin.id,
         symbol: String(coin.symbol).toUpperCase(),
         name: coin.name,
+        price: coin.current_price ?? 0,
         priceChange24h: coin.price_change_percentage_24h ?? 0,
         isDemo: false,
       }));
