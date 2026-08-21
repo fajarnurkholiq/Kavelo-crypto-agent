@@ -28,9 +28,9 @@ export const DEMO_MARKET_OVERVIEW: MarketOverview = {
 };
 
 export const DEMO_TOP_MOVERS: TopMover[] = [
-  { id: "solana", symbol: "SOL", name: "Solana", priceChange24h: 8.4, isDemo: true },
-  { id: "avalanche-2", symbol: "AVAX", name: "Avalanche", priceChange24h: 6.1, isDemo: true },
-  { id: "chainlink", symbol: "LINK", name: "Chainlink", priceChange24h: -5.3, isDemo: true },
+  { id: "solana", symbol: "SOL", name: "Solana", price: 145, priceChange24h: 8.4, isDemo: true },
+  { id: "avalanche-2", symbol: "AVAX", name: "Avalanche", price: 27.4, priceChange24h: 6.1, isDemo: true },
+  { id: "chainlink", symbol: "LINK", name: "Chainlink", price: 13.9, priceChange24h: -5.3, isDemo: true },
 ];
 
 export const DEMO_ASSETS: Record<string, AssetData> = {
