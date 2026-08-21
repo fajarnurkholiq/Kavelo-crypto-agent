@@ -77,6 +77,39 @@ export function useTopMovers(limit: number = 5) {
 }
 
 /**
+ * Hook untuk beberapa aset sekaligus (dipakai Watchlist & Research preview).
+ * Mengambil tiap aset secara paralel; isDemo bernilai true jika SALAH SATU
+ * aset jatuh ke demo data, supaya indikator tetap jujur.
+ */
+export function useMultipleAssets(assetIds: string[]) {
+  const [state, setState] = useState<DataState<AssetData[]>>(INITIAL_STATE);
+  const key = assetIds.join(",");
+
+  const refetch = useCallback(async () => {
+    if (assetIds.length === 0) {
+      setState({ data: [], loading: false, error: null, isDemo: false });
+      return;
+    }
+    setState((prev) => ({ ...prev, loading: true, error: null }));
+    const results = await Promise.all(assetIds.map((id) => getAssetData(id)));
+    const data = results
+      .map((r) => r.data)
+      .filter((d): d is AssetData => d !== null);
+    const isDemo = results.some((r) => r.isDemo);
+    const firstError = results.find((r) => r.error)?.error ?? null;
+
+    setState({ data, loading: false, error: firstError, isDemo });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  return { ...state, refetch };
+}
+
+/**
  * Hook untuk detail satu aset. assetId bisa null (mis. belum ada
  * aset terpilih) — dalam kondisi ini hook tidak melakukan fetch.
  */
